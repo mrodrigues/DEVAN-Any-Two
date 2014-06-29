@@ -184,3 +184,5 @@ CSV.open("results.csv", "wb") do |csv|
     ]
   end
 end
+
+puts "Results written to results.csv"
