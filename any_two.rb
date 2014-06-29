@@ -203,6 +203,9 @@ results.each do |result|
     ]
     result.agreements.each do |agreement|
       b1, b2 = agreement.b1, agreement.b2
+      if b1.evaluator != e1.name
+        b1, b2 = b2, b1
+      end
       csv << [b1.codes.join("/"), b1.start_time, b1.end_time, b2.start_time, b2.end_time]
     end
   end
