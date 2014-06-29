@@ -217,6 +217,8 @@ results.each do |result|
   puts "Agreements for #{e1.name} and #{e2.name} written to #{filename}"
 end
 
+all_agreements.sort_by! {|a| a.b1.start_time }
+
 filename = "all_agreements.csv"
 CSV.open(filename, "wb") do |csv|
   csv << [
