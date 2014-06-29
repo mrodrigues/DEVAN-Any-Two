@@ -28,11 +28,11 @@ class Breakdown < Struct.new(:codes, :start_time, :end_time, :evaluator)
     "[%s] %s - %s" % [codes.join('/'), start_time, end_time]
   end
 
-  private
-    def interval
-      @interval ||= Shift.new(start_time, end_time)
-    end
+  def interval
+    @interval ||= Shift.new(start_time, end_time)
+  end
 
+  private
     def validate_codes!
       codes.each { |code| raise "Code not valid: #{code}" unless VALID_CODES.include?(code) }
     end
@@ -217,7 +217,8 @@ results.each do |result|
   puts "Agreements for #{e1.name} and #{e2.name} written to #{filename}"
 end
 
-all_agreements.sort_by! {|a| a.b1.start_time }
+all_agreements = all_agreements.map {|p| p.b1.interval.duration < p.b1.interval.duration ? p.b1 : p.b2 }
+all_agreements.sort_by! {|b| b.start_time }
 
 filename = "all_agreements.csv"
 CSV.open(filename, "wb") do |csv|
@@ -227,8 +228,7 @@ CSV.open(filename, "wb") do |csv|
     "End time"
   ]
 
-  all_agreements.each do |agreement|
-    b = agreement.b1
+  all_agreements.each do |b|
     csv << [b.codes.join("/"), b.start_time, b.end_time]
   end
 end
