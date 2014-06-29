@@ -108,7 +108,7 @@ end
 
 class AnyTwo
 
-  attr_reader :points
+  attr_reader :points, :e1, :e2
 
   def initialize(e1, e2)
     @e1, @e2 = e1, e2
@@ -121,18 +121,18 @@ class AnyTwo
   def agreements; points.select(&:agreement?); end
   def disagreements; points.select(&:disagreement?); end
   def single_points_for(name); @single_points[name]; end
+  def label; "(#{@e1.name}, #{@e2.name})"; end
+  def unique_a; single_points_for(@e1.name); end
+  def unique_b; single_points_for(@e2.name); end
+  def any_two; agreements.count / points.count.to_f; end
 
   def print_result
-    puts "============ (#{@e1.name}, #{@e2.name}) ==============="
-    puts "any-two: #{agreements.count / points.count.to_f}"
-    puts "agreements: #{agreements.count}"
-    puts "single_points: #{single_points.count}"
-    puts "disagreements: #{disagreements.count}"
-    puts "total points: #{points.count}"
-    puts "breakdowns for #{@e1.name}: #{@e1.breakdowns.count}"
-    puts "single points for #{@e1.name}: #{single_points_for(@e1.name).count}"
-    puts "breakdowns from #{@e2.name}: #{@e2.breakdowns.count}"
-    puts "single points for #{@e2.name}: #{single_points_for(@e2.name).count}"
+    puts "============ #{label} ==============="
+    puts "Any-two: #{any_two}"
+    puts "Agreements: #{agreements.count}"
+    puts "Disagreements: #{disagreements.count}"
+    puts "Unique #{@e1.name}: #{single_points_for(@e1.name).count}"
+    puts "Unique #{@e2.name}: #{single_points_for(@e2.name).count}"
     puts
   end
 
@@ -170,3 +170,17 @@ data.each {|file, name| evaluations << Evaluation.new(file, name, 4) }
 results = []
 evaluations.combination(2) { |e1, e2| results << AnyTwo.new(e1, e2) }
 results.each(&:print_result)
+
+CSV.open("results.csv", "wb") do |csv|
+  csv << ["Evaluations", "Any-Two", "Agreements", "Disagreements", "Unique A", "Unique B"]
+  results.each do |result|
+    csv << [
+      result.label,
+      result.any_two,
+      result.agreements.count,
+      result.disagreements.count,
+      result.unique_a.count,
+      result.unique_b.count
+    ]
+  end
+end

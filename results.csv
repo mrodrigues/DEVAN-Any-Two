@@ -1,0 +1,4 @@
+Evaluations,Any-Two,Agreements,Disagreements,Unique A,Unique B
+"(./data/marcos.csv, ./data/thiago.csv)",0.1299638989169675,36,210,23,8
+"(./data/marcos.csv, ./data/danilo.csv)",0.21487603305785125,26,50,43,2
+"(./data/thiago.csv, ./data/danilo.csv)",0.13114754098360656,16,79,17,10
