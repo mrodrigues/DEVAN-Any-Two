@@ -172,7 +172,8 @@ results = []
 evaluations.combination(2) { |e1, e2| results << AnyTwo.new(e1, e2) }
 results.each(&:print_result)
 
-CSV.open("results.csv", "wb") do |csv|
+filename = "results.csv"
+CSV.open(filename, "wb") do |csv|
   csv << ["Evaluations", "Any-Two", "Agreements", "Disagreements", "Unique A", "Unique B"]
   results.each do |result|
     csv << [
@@ -186,9 +187,12 @@ CSV.open("results.csv", "wb") do |csv|
   end
 end
 
-puts "Results written to results.csv"
+puts "Results written to #{filename}"
 
+all_agreements = []
 results.each do |result|
+  all_agreements += result.agreements
+
   start_str = "Start time - %s"
   end_str = "End time - %s"
   e1, e2 = result.e1, result.e2
@@ -213,3 +217,18 @@ results.each do |result|
   puts "Agreements for #{e1.name} and #{e2.name} written to #{filename}"
 end
 
+filename = "all_agreements.csv"
+CSV.open(filename, "wb") do |csv|
+  csv << [
+    "CODE",
+    "Start time",
+    "End time"
+  ]
+
+  all_agreements.each do |agreement|
+    b = agreement.b1
+    csv << [b.codes.join("/"), b.start_time, b.end_time]
+  end
+end
+
+puts "All agreements written to #{filename}"
