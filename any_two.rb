@@ -162,7 +162,8 @@ class AnyTwo
     end
 end
 
-data = Dir["#{File.dirname(__FILE__)}/data/*.csv"].map {|file| [CSV.read(file), file] }
+LABELS = ('A'..'Z').to_a
+data = Dir["#{File.dirname(__FILE__)}/data/*.csv"].each_with_index.map {|file, i| [CSV.read(file), LABELS[i]] }
 
 evaluations = []
 data.each {|file, name| evaluations << Evaluation.new(file, name, 4) }
@@ -186,3 +187,26 @@ CSV.open("results.csv", "wb") do |csv|
 end
 
 puts "Results written to results.csv"
+
+results.each do |result|
+  start_str = "Start time - %s"
+  end_str = "End time - %s"
+  e1, e2 = result.e1, result.e2
+  filename = "agreements_#{e1.name}-#{e2.name}.csv"
+  CSV.open(filename, "wb") do |csv|
+    csv << [
+      "CODE",
+      start_str % e1.name,
+      end_str   % e1.name,
+      start_str % e2.name,
+      end_str   % e2.name
+    ]
+    result.agreements.each do |agreement|
+      b1, b2 = agreement.b1, agreement.b2
+      csv << [b1.codes.join("/"), b1.start_time, b1.end_time, b2.start_time, b2.end_time]
+    end
+  end
+
+  puts "Agreements for #{e1.name} and #{e2.name} written to #{filename}"
+end
+
