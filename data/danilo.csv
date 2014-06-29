@@ -1,0 +1,29 @@
+AJU,00:10,03:58,A criança realiza ações inesperadas e o terapeuta sempre está intervindo.,C1
+ACX,00:16,00:23,,C1
+ACX,00:36,00:43,,C1
+AJU,04:10,05:21,A criança realiza ações inesperadas e o terapeuta sempre está intervindo.,C1
+,,,,
+ACX,06:39,06:50,,C2
+ACE,06:56,,A criança não selecionou a pipoca.,C2
+AJU,07:01,07:09,A terapeuta precisou auxiliar a criança para que a mesma escolha a opção correta.,C2
+AJU,07:17,07:23,A terapeuta interviu na escolha da opção.,C2
+ACX,07:34,07:50,A criança seleciona todas as opções possíveis.,C2
+ACX,09:47,10:03,,C2
+RAN,10:07,10:46,,C2
+,,,,
+ACE,13:50,,,C3
+ACE,14:24,14:28,,C3
+ACP,14:45,15:05,,
+,,,,
+ANT,20:24,,,C4
+ACE,21:38,,,C4
+,,,,
+ACE/PPR,23:16,,,C5
+AJU,23:23,23:30,,C5
+ACE,23:56,,,C5
+PEX,24:08,,,C5
+AJU,24:10,24:16,,C5
+ACE,24:20,24:29,,C5
+AJU,24:31,,,C5
+,,,,
+,ACERTOU TUDO,,,C6
