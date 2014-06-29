@@ -41,15 +41,14 @@ end
 class Evaluation
   attr_reader :breakdowns, :name
 
-  def initialize(data, name)
+  def initialize(data, name, threshold = 4)
     @name = name
-
     @breakdowns = []
     data.each do |d|
-      next if d[0].nil?           # not a breakdown
-      d[2] = d[1] if d[2].nil?    # convert to interval
-      d[1] = parse_time(d[1], -4) # add threshold
-      d[2] = parse_time(d[2], +4) # add threshold
+      next if d[0].nil?                   # not a breakdown
+      d[2] = d[1] if d[2].nil?            # convert to interval
+      d[1] = parse_time(d[1], -threshold) # add threshold
+      d[2] = parse_time(d[2], +threshold) # add threshold
       @breakdowns << Breakdown.new(*d[0..2], name)
     end
   end
@@ -166,7 +165,7 @@ end
 data = Dir["#{File.dirname(__FILE__)}/data/*.csv"].map {|file| [CSV.read(file), file] }
 
 evaluations = []
-data.each {|file, name| evaluations << Evaluation.new(file, name) }
+data.each {|file, name| evaluations << Evaluation.new(file, name, 4) }
 
 results = []
 evaluations.combination(2) { |e1, e2| results << AnyTwo.new(e1, e2) }
