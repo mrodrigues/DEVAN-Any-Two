@@ -217,7 +217,7 @@ results.each do |result|
   puts "Agreements for #{e1.name} and #{e2.name} written to #{filename}"
 end
 
-all_agreements = all_agreements.map {|p| p.b1.interval.duration < p.b1.interval.duration ? p.b1 : p.b2 }
+all_agreements = all_agreements.map {|p| p.b1.interval.duration < p.b2.interval.duration ? p.b1 : p.b2 }
 all_agreements.sort_by! {|b| b.start_time }
 
 filename = "all_agreements.csv"
